@@ -19,23 +19,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        val viewModel = getViewModel(Unit, viewModelFactory { MoviesViewModel() })
-        val uiState by viewModel.uiState.collectAsState()
+        val navController = rememberNavController()
+        NavHost(navController, "movies") {
+            composable("movies") {
+                val viewModel = viewModel { MoviesViewModel() }
+                val uiState by viewModel.uiState.collectAsState()
 
-        LaunchedEffect(viewModel) {
-            viewModel.updateMovies()
+                LaunchedEffect(viewModel) {
+                    viewModel.updateMovies()
+                }
+
+                MoviesScreen(uiState)
+            }
         }
-
-        MoviesScreen(uiState)
     }
 }
 
