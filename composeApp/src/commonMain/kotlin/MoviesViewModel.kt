@@ -28,7 +28,7 @@ class MoviesViewModel : ViewModel() {
     }
 
     private suspend fun fetchMovies() = httpClient
-        .get("https://my-json-server.typicode.com/necatisozer/movieapi/popular")
+        .get("https://my-json-server.typicode.com/necatisozer/KMP-MovieApp/popular")
         .body<List<Movie>>()
 
     override fun onCleared() {
